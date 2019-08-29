@@ -19,6 +19,14 @@ Bundler.require(*Rails.groups)
 
 module ZssnApi
   class Application < Rails::Application
+    # Cors
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :options]
+      end
+    end
+    
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
