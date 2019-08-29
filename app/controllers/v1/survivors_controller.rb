@@ -19,7 +19,7 @@ module V1
       @survivor = Survivor.new(survivor_params)
 
       if @survivor.save
-        render json: @survivor, status: :created, location: @survivor
+        render json: @survivor, status: :created, location: url_for([:v1, @survivor])
       else
         render json: @survivor.errors, status: :unprocessable_entity
       end
@@ -48,7 +48,7 @@ module V1
 
     # Only allow a trusted parameter "white list" through.
     def survivor_params
-      params.require(:survivor).permit(:name, :age, :gender, :latitude, :longitude, :infected)
+      params.require(:survivor).permit(:name, :age, :gender, :latitude, :longitude)
     end
   end
 end
