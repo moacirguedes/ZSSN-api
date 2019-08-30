@@ -23,7 +23,7 @@ module V1
       end
 
       if @survivor.save
-        render json: @survivor, include: [:item], status: :created,
+        render json: @survivor, include: :item, status: :created,
                location: url_for([:v1, @survivor])
       else
         render json: @survivor.errors, status: :unprocessable_entity

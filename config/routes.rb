@@ -9,5 +9,7 @@ Rails.application.routes.draw do
     get 'reports/non_infected'
     get 'reports/survivors_inventory'
     get 'reports/points_lost'
+
+    post 'items/trade'
   end
 end
