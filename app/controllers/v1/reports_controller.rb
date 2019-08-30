@@ -1,5 +1,7 @@
 module V1
   class ReportsController < ApplicationController
+    before_action :set_survivor, only: :create
+
     def index
       @reports = Report.all
 
@@ -13,18 +15,22 @@ module V1
 
     def create
       @report = Report.new(report_params)
-      @report.survivor = Survivor.find(params[:survivor_id])
+      @report.survivor = @survivor
 
-      Survivor.find(@report.reporter_survivor_id)
-
-      if @report.save
-        render json: @report, status: :created, location: url_for([:v1, @report.survivor, @report])
+      if !Survivor.exists?(@report.reporter_survivor_id)
+        render json: { error: 'Reporter survivor does not exist' }, status: :not_found
+      elsif @report.save
+        render json: @report, status: :created, location: url_for([:v1, @survivor, @report])
       else
         render json: @report.errors, status: :unprocessable_entity
       end
     end
 
     private
+
+    def set_survivor
+      @survivor = Survivor.find(params[:survivor_id])
+    end
 
     def report_params
       params.require(:report).permit(:reporter_survivor_id)
