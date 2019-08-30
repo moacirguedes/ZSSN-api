@@ -16,7 +16,8 @@ module V1
       @survivor = Survivor.new(survivor_params)
 
       if @survivor.save
-        render json: @survivor, status: :created, location: url_for([:v1, @survivor])
+        render json: @survivor, include: [:item], status: :created,
+               location: url_for([:v1, @survivor])
       else
         render json: @survivor.errors, status: :unprocessable_entity
       end
@@ -41,7 +42,10 @@ module V1
     end
 
     def survivor_params
-      params.require(:survivor).permit(:name, :age, :gender, :latitude, :longitude)
+      params.require(:survivor).permit(
+        :name, :age, :gender, :latitude,
+        :longitude, item_attributes: [:name]
+      )
     end
   end
 end
