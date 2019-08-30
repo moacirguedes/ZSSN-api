@@ -1,6 +1,9 @@
 module V1
   class ReportsController < ApplicationController
+    include Infectable
+
     before_action :set_survivor, only: %i[index show create]
+    before_action :infection_status, only: :create
 
     def index
       @reports = Report.where(survivor_id: @survivor.id)
@@ -21,7 +24,7 @@ module V1
       if !Survivor.exists?(@report.reporter_survivor_id)
         render json: { error: 'Reporter survivor does not exist' }, status: :not_found
       elsif @report.save
-        infect if Report.count(@report.survivor_id) == 3
+        infect if Report.where(survivor_id: @report.survivor_id).count == 3
         render json: @report, status: :created, location: url_for([:v1, @survivor, @report])
       else
         render json: @report.errors, status: :unprocessable_entity

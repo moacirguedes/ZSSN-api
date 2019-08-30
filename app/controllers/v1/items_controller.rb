@@ -1,6 +1,9 @@
 module V1
   class ItemsController < ApplicationController
+    include Infectable
+
     before_action :set_survivor, only: %i[index show]
+    before_action :infection_status, only: %i[index show]
 
     def index
       @items = Item.where(survivor_id: @survivor.id)

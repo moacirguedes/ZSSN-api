@@ -1,6 +1,9 @@
 module V1
   class SurvivorsController < ApplicationController
+    include Infectable
+
     before_action :set_survivor, only: %i[show update destroy]
+    before_action :infection_status, only: %i[update destroy]
 
     def index
       @survivors = Survivor.all
