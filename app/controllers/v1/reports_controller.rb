@@ -1,15 +1,16 @@
 module V1
   class ReportsController < ApplicationController
-    before_action :set_survivor, only: :create
+    before_action :set_survivor, only: %i[index show create]
 
     def index
-      @reports = Report.all
+      @reports = Report.where(survivor_id: @survivor.id)
 
       render json: @reports
     end
 
     def show
-      @report = Report.find(params[:id])
+      @report = Report.find_by(id: params[:id], survivor_id: @survivor.id)
+
       render json: @report
     end
 
