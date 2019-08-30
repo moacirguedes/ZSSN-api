@@ -15,6 +15,10 @@ module V1
     def create
       @survivor = Survivor.new(survivor_params)
 
+      @survivor.item.each do |i|
+        i.value = Item.items[i.name]
+      end
+
       if @survivor.save
         render json: @survivor, include: [:item], status: :created,
                location: url_for([:v1, @survivor])
