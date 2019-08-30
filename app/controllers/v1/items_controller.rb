@@ -1,19 +1,16 @@
 module V1
   class ItemsController < ApplicationController
-    # GET /items
     def index
       @items = Item.all
 
       render json: @items
     end
 
-    # GET /items/1
     def show
       @item = Item.find(params[:id])
       render json: @item
     end
 
-    # POST /items
     def create
       @item = Item.new(item_params)
       @item.survivor = Survivor.find(params[:survivor_id])
