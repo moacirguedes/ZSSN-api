@@ -30,4 +30,12 @@ module Reportable
       ammunition_per_survivor: ammunition_average
     }
   end
+
+  def check_reporter
+    @reporter = Survivor.find(report_params[:reporter_survivor_id])
+
+    if @reporter.infected
+      render json: { error: 'This reporter is infected' }, status: :unprocessable_entity
+    end
+  end
 end

@@ -62,12 +62,6 @@ module V1
       params.require(:report).permit(:reporter_survivor_id)
     end
 
-    def check_reporter
-      unless Survivor.exists?(report_params[:reporter_survivor_id])
-        render json: { error: 'Reporter survivor does not exist' }, status: :not_found
-      end
-    end
-
     def infect
       @survivor.update_attribute(:infected, true)
     end
