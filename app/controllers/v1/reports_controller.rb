@@ -20,6 +20,7 @@ module V1
       if !Survivor.exists?(@report.reporter_survivor_id)
         render json: { error: 'Reporter survivor does not exist' }, status: :not_found
       elsif @report.save
+        infect if Report.count(@report.survivor_id) == 3
         render json: @report, status: :created, location: url_for([:v1, @survivor, @report])
       else
         render json: @report.errors, status: :unprocessable_entity
@@ -34,6 +35,10 @@ module V1
 
     def report_params
       params.require(:report).permit(:reporter_survivor_id)
+    end
+
+    def infect
+      @survivor.update_attribute(:infected, true)
     end
   end
 end
