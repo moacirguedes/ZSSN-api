@@ -1,6 +1,6 @@
 module V1
   class SurvivorsController < ApplicationController
-    include Infectable
+    include Reportable
 
     before_action :set_survivor, only: %i[show update destroy]
     before_action :infection_status, only: %i[update destroy]

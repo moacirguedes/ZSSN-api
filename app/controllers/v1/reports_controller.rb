@@ -1,9 +1,10 @@
 module V1
   class ReportsController < ApplicationController
-    include Infectable
+    include Reportable
 
     before_action :set_survivor, only: %i[index show create]
     before_action :infection_status, only: :create
+    before_action :check_reporter, only: :create
 
     def index
       @reports = Report.where(survivor_id: @survivor.id)
@@ -21,14 +22,34 @@ module V1
       @report = Report.new(report_params)
       @report.survivor = @survivor
 
-      if !Survivor.exists?(@report.reporter_survivor_id)
-        render json: { error: 'Reporter survivor does not exist' }, status: :not_found
-      elsif @report.save
+      if @report.save
         infect if Report.where(survivor_id: @report.survivor_id).count == 3
         render json: @report, status: :created, location: url_for([:v1, @survivor, @report])
       else
         render json: @report.errors, status: :unprocessable_entity
       end
+    end
+
+    def infected
+      render json: {
+        data: "#{percentage_infected}% of the survivors are infected"
+      }, status: :ok
+    end
+
+    def non_infected
+      render json: {
+        data: "#{percentage_non_infected}% of the survivors aren't infected"
+      }, status: :ok
+    end
+
+    def survivors_inventory
+      render json: { data: items_average }, status: :ok
+    end
+
+    def points_lost
+      render json: {
+        data: "#{Item.points_lost} points lost to infected survivors"
+      }, status: :ok
     end
 
     private
@@ -39,6 +60,12 @@ module V1
 
     def report_params
       params.require(:report).permit(:reporter_survivor_id)
+    end
+
+    def check_reporter
+      unless Survivor.exists?(report_params[:reporter_survivor_id])
+        render json: { error: 'Reporter survivor does not exist' }, status: :not_found
+      end
     end
 
     def infect

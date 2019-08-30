@@ -1,6 +1,6 @@
 module V1
   class ItemsController < ApplicationController
-    include Infectable
+    include Reportable
 
     before_action :set_survivor, only: %i[index show]
     before_action :infection_status, only: %i[index show]
@@ -15,6 +15,9 @@ module V1
       @item = Item.find_by(id: params[:id], survivor_id: @survivor.id)
 
       render json: @item
+    end
+
+    def trade
     end
 
     private
