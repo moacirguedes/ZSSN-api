@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :item do
-    name { "MyString" }
-    survivor { nil }
+    name { Item.items.keys.sample }
+    survivor { create(:survivor) }
   end
 end

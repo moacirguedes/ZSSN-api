@@ -1,10 +1,9 @@
 FactoryBot.define do
   factory :survivor do
-    name { "MyString" }
-    age { 1 }
-    gender { 1 }
-    latitude { 1.5 }
-    longitude { 1.5 }
-    infected { false }
+    name { Faker::Name.name }
+    age { Faker::Number.between(from: 0, to: 100) }
+    gender { %w[male female other].sample }
+    latitude { Faker::Address.latitude }
+    longitude { Faker::Address.longitude }
   end
 end
