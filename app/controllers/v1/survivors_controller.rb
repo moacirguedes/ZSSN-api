@@ -31,7 +31,9 @@ module V1
     end
 
     def update
-      if @survivor.update(survivor_params)
+      params = survivor_params
+      params.delete :item_attributes
+      if @survivor.update(params)
         render json: @survivor
       else
         render json: @survivor.errors, status: :unprocessable_entity
