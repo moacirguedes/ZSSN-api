@@ -21,7 +21,72 @@ RSpec.describe V1::ItemsController, type: :controller do
     end
   end
 
-  describe 'trade items' do
-    skip('todo')
+  describe 'TRADE' do
+    context 'with valid params' do
+      it 'trade items' do
+        item_one = create(:item, :water)
+        item_two = create(:item, :water)
+
+        survivor_one_id = item_one.survivor_id
+        survivor_two_id = item_two.survivor_id
+
+        post :trade, params: {
+          first_survivor: survivor_one_id,
+          second_survivor: survivor_two_id,
+          first_survivor_items: [item_one.id],
+          second_survivor_items: [item_two.id]
+        }
+
+        item_one.reload
+        item_two.reload
+
+        expect(item_one.survivor_id).to eq(survivor_two_id)
+        expect(item_two.survivor_id).to eq(survivor_one_id)
+      end
+    end
+
+    context 'with invalid params' do
+      it 'do not trade items with differents worth' do
+        item_one = create(:item, :water)
+        item_two = create(:item, :food)
+
+        survivor_one_id = item_one.survivor_id
+        survivor_two_id = item_two.survivor_id
+
+        post :trade, params: {
+          first_survivor: survivor_one_id,
+          second_survivor: survivor_two_id,
+          first_survivor_items: [item_one.id],
+          second_survivor_items: [item_two.id]
+        }
+
+        item_one.reload
+        item_two.reload
+
+        expect(item_one.survivor_id).to eq(survivor_one_id)
+        expect(item_two.survivor_id).to eq(survivor_two_id)
+      end
+
+      it 'do not trade items from infected survivors' do
+        item_one = create(:item, :water)
+        item_two = create(:item, :water, :infected)
+
+        survivor_one_id = item_one.survivor_id
+        survivor_two_id = item_two.survivor_id
+
+        post :trade, params: {
+          first_survivor: survivor_one_id,
+          second_survivor: survivor_two_id,
+          first_survivor_items: [item_one.id],
+          second_survivor_items: [item_two.id]
+        }
+
+        item_one.reload
+        item_two.reload
+
+        expect(item_one.survivor_id).to eq(survivor_one_id)
+        expect(item_two.survivor_id).to eq(survivor_two_id)
+      end
+    end
   end
 end
