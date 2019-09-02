@@ -29,7 +29,7 @@ $ bin/rails s
 
 ### Testing
 
-For testing, run one of following commands
+For testing, run one of the following commands
 ```
 $ bin/rspec
 
