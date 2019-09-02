@@ -6,4 +6,12 @@ FactoryBot.define do
     latitude { Faker::Address.latitude }
     longitude { Faker::Address.longitude }
   end
+
+  factory :invalid_survivor, parent: :survivor do
+    name { nil }
+    age { nil }
+    gender { nil }
+    latitude { nil }
+    longitude { nil }
+  end
 end
