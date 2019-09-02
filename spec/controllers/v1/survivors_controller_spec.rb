@@ -14,6 +14,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
       survivor = Survivor.create! valid_attributes
       get :index, params: {}
       expect(assigns(:survivors)).to eq([survivor])
+      expect(response).to be_successful
     end
   end
 
@@ -22,6 +23,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
       survivor = Survivor.create! valid_attributes
       get :show, params: { id: survivor.to_param }
       expect(assigns(:survivor)).to eq(survivor)
+      expect(response).to be_successful
     end
   end
 

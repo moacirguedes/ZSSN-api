@@ -10,6 +10,7 @@ RSpec.describe V1::ReportsController, type: :controller do
       report = Report.create! valid_attributes
       get :index, params: { survivor_id: report.survivor_id }
       expect(assigns(:reports)).to eq([report])
+      expect(response).to be_successful
     end
   end
 
@@ -18,6 +19,7 @@ RSpec.describe V1::ReportsController, type: :controller do
       report = Report.create! valid_attributes
       get :show, params: { survivor_id: report.survivor_id, id: report.to_param }
       expect(assigns(:report)).to eq(report)
+      expect(response).to be_successful
     end
   end
 

@@ -10,6 +10,7 @@ RSpec.describe V1::ItemsController, type: :controller do
       item = Item.create! valid_attributes
       get :index, params: { survivor_id: item.survivor_id }
       expect(assigns(:items)).to eq([item])
+      expect(response).to be_successful
     end
   end
 
@@ -18,6 +19,7 @@ RSpec.describe V1::ItemsController, type: :controller do
       item = Item.create! valid_attributes
       get :show, params: { survivor_id: item.survivor_id, id: item.to_param }
       expect(assigns(:item)).to eq(item)
+      expect(response).to be_successful
     end
   end
 
