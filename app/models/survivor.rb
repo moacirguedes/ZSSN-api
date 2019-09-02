@@ -3,8 +3,8 @@ class Survivor < ApplicationRecord
   validates :age, presence: true
   validates :gender, presence: true
 
-  has_many :item
-  has_many :report
+  has_many :item, dependent: :destroy
+  has_many :report, dependent: :destroy
 
   accepts_nested_attributes_for :item
 
