@@ -13,6 +13,9 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'factory_bot'
+
 RSpec.configure do |config|
   # FactoryBot Lint
   config.include FactoryBot::Syntax::Methods

@@ -1,24 +1,37 @@
-# README
+# Zombie Survival Social Network - API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### The problem
+The description of the problem is [here](https://github.com/moacirguedes/ZSSN-api/wiki).
 
-Things you may want to cover:
+### API documentation
+The documentation about the api is [here](https://github.com/moacirguedes/ZSSN-api/wiki/API-endpoints-documentation). There you can find examples of requests in each endpoint.
 
-* Ruby version
+### Instalation
 
-* System dependencies
+First clone this repository
+```
+ $ git clone https://github.com/moacirguedes/ZSSN-api
 
-* Configuration
+ $ cd zssn-api
 
-* Database creation
+```
 
-* Database initialization
+Then install the dependencies and run the migrations
+```
+$ bundle install
+$ rails db:migrate
+```
 
-* How to run the test suite
+And now you can run the application with
+```
+$ bin/rails s
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### Testing
 
-* Deployment instructions
+For testing, run one of following commands
+```
+$ bin/rspec
 
-* ...
+$ bundle exec rspec
+```
